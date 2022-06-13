@@ -1,6 +1,6 @@
 import pandas as pd
 from urllib import request
-import re
+import re, os
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import NoSuchElementException
@@ -39,6 +39,11 @@ def open_and_get_pdf_link(href):
         
         return [cur_link1, cur_link2]
 
+
+
+# zawody indywidualne na normlanych, duych skoczniach i loty, mezczyzni, 2009-2022
+# scprapowanie linków do kazdego eventu
+
 events_per_season = []
 
 for x in range(2009,2023):
@@ -51,6 +56,9 @@ for x in range(2009,2023):
    
 events_per_season = events_per_season = pd.concat(events_per_season,ignore_index=True).to_list()
 
+
+# scrapowanie linków do PDF z wynikami kazdego eventu (official results)
+
 pdfs = []
 
 for x in events_per_season:
@@ -58,17 +66,20 @@ for x in events_per_season:
     print(x)
     pdfs.append(open_and_get_pdf_link(x+"#down"))
 
-    
+
+# pobranie tych pdf
+
+
 for x in range(len(pdfs)):
     
     if type(pdfs[x]) is str:
         remote_url = pdfs[x]
-        local_file = r"C:\Users\wpiel\OneDrive\Desktop\proba\file_"+str(x)+".pdf"
+        local_file = os.getcwd()+"//pdfs//"+str(x)+".pdf"
         request.urlretrieve(remote_url, local_file)
-        
+      
     else:
         
         for y in range(len(pdfs[x])):
             remote_url = pdfs[x][y]
-            local_file = r"C:\Users\wpiel\OneDrive\Desktop\proba\file_"+str(x)+"_"+str(y)+".pdf"
+            local_file = os.getcwd()+"//pdfs//"+str(x)+"_"+str(y)+".pdf"
             request.urlretrieve(remote_url, local_file)
