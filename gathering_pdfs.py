@@ -39,11 +39,6 @@ def open_and_get_pdf_link(href):
         
         return [cur_link1, cur_link2]
 
-
-
-# zawody indywidualne na normlanych, duych skoczniach i loty, mezczyzni, 2009-2022
-# scprapowanie linków do kazdego eventu
-
 events_per_season = []
 
 for x in range(2009,2023):
@@ -56,9 +51,6 @@ for x in range(2009,2023):
    
 events_per_season = events_per_season = pd.concat(events_per_season,ignore_index=True).to_list()
 
-
-# scrapowanie linków do PDF z wynikami kazdego eventu (official results)
-
 pdfs = []
 
 for x in events_per_season:
@@ -66,10 +58,7 @@ for x in events_per_season:
     print(x)
     pdfs.append(open_and_get_pdf_link(x+"#down"))
 
-
-# pobranie tych pdf
-
-
+    
 for x in range(len(pdfs)):
     
     if type(pdfs[x]) is str:
